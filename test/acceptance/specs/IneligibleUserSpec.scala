@@ -30,7 +30,7 @@ class IneligibleUserSpec extends AcceptanceTestSpec with SpecHelper with StubAut
     scenario("A user having no CDS enrolment tries to amend email address") {
 
       Given("the user has no CDS enrolment")
-      authenticateGGUserWithError(randomInternalId, "InsufficientEnrolments")
+      authenticateGGUserAsAgentWithNoCDSEnrolment(randomInternalId, randomEoriNumber, "Admin","Organisation")
 
       When("the user attempts to access the 'What is your email?' page")
       navigateTo(WhatIsYourEmailPageShow)
@@ -64,21 +64,9 @@ class IneligibleUserSpec extends AcceptanceTestSpec with SpecHelper with StubAut
 
     }
 
-    scenario("A user with an assistant account tries to amend email") {
-
-      Given("the user has is an assistant on the account")
-      authenticate(randomInternalId, randomEoriNumber, "assistant")
-
-      When("the user attempts to access the 'What is your email?' page")
-      navigateTo(WhatIsYourEmailPageShow)
-
-      Then("the user should not be allowed")
-      verifyCurrentPage(IneligibleUserNotAdminPage)
-    }
-
     scenario("A user with an agent account tries to amend email") {
 
-      Given("the user is an agent on the account for an organisation")
+      Given("the user is an agent")
       authenticate(randomInternalId, randomEoriNumber, "user","Agent")
 
       When("the user attempts to access the 'What is your email?' page")
@@ -90,7 +78,7 @@ class IneligibleUserSpec extends AcceptanceTestSpec with SpecHelper with StubAut
 
     scenario("A user with an agent account having no CDS enrolment tries to amend email") {
 
-      Given("the user is an agent on the account for an organisation")
+      Given("the user is an agent")
       authenticateGGUserAsAgentWithNoCDSEnrolment(randomInternalId, randomEoriNumber, "user","Agent")
 
       When("the user attempts to access the 'What is your email?' page")
@@ -100,7 +88,7 @@ class IneligibleUserSpec extends AcceptanceTestSpec with SpecHelper with StubAut
       verifyCurrentPage(IneligibleUserAgentPage)
     }
 
-    scenario("An assistant user with an organisation account having no CDS enrolment tries to amend email") {
+    scenario("An assistant user with an organisation account tries to amend email") {
 
       Given("the user is an agent on the account for an organisation")
       authenticateGGUserAsAgentWithNoCDSEnrolment(randomInternalId, randomEoriNumber, "assistant","Organisation")

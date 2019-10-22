@@ -28,7 +28,6 @@ class VerifyEmailAddressEndToEndSpec extends EndToEndTestSpec with SpecHelper {
 
     scenario("User returns to the service to amend an email address within 24 hours and should be redirected to 'You cannot change' page") {
       Given("the user has successfully changed the email address")
-
       navigateTo(AuthLoginStubPage)
       AuthLoginStubPage.login(credId)
       verifyCurrentPage(StartPage)
